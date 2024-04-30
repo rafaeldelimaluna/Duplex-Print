@@ -1,10 +1,14 @@
-from pypdf import PdfReader
-from utils import Manager, Commands, Interpreter
+from pypdf import PdfReader, PdfWriter
+from Printer.utils import Manager, Commands, Interpreter
+from os import getcwd, remove, path
 
 
 class Printer(Manager):
     def __init__(self, filename, duplex: bool, print_quality: int | str, print_reversed: bool, media_size: str, job_name="") -> None:
         self.duplex = "duplex" if duplex else None
+        self.__is_duplex = duplex
+        self.__cwd = getcwd()
+        self.file_target = self.__cwd+'/' + filename
         self.filename = filename
         self.oprint_quality = self.__convertPrintQualityEntryToCupsEntry(
             print_quality)
@@ -13,7 +17,8 @@ class Printer(Manager):
         self.omedia = media_size if media_size != "" else None
         self.ooutputorder = "reversed" if print_reversed else None
         self.T = None if job_name == "" else job_name
-        self.pdf_len = len(PdfReader(self.filename).pages)
+        self.pdf = PdfReader(self.filename)
+        self.pdf_len = len(self.pdf.pages)
         self.cups_command = self.__createCupsCommand()
         self.relatory = self.__MakePrintRelatory()
         super().__init__(self.cups_command)
@@ -40,10 +45,19 @@ class Printer(Manager):
                 return 5
 
     def __createDuplexCommandPrint(self, even: bool):
-        pages = [f"{i}" for i in range(1+even, self.pdf_len+1, 2)]
-        pages = ",".join(pages)
-        output = Commands.pattern + f" -o pages-ranges={pages} {self.filename}"
-        return output
+        # output = Commands.pattern + f" -o pages-ranges={pages} {self.filename}"
+        writer = PdfWriter()
+        output = Commands.pattern + " "
+        filename = ".even-29042024.pdf" if even else ".odd-29042024.pdf"
+        [writer.add_page(self.pdf.pages[i])
+            for i in range(even, self.pdf_len, 2)]
+        writer.write(filename)
+        if even:
+            output += ".even-29042024.pdf"
+            return output
+        else:
+            output += '.odd-29042024.pdf'
+            return output
 
     def __MakePrintRelatory(self) -> dict:
         relatory_data = dict()
@@ -69,9 +83,16 @@ class Printer(Manager):
             Commands.odd = self.__createDuplexCommandPrint(False)
             Commands.even = self.__createDuplexCommandPrint(True)
             return (Commands.odd, Commands.even)
+        print(Commands.odd)
+        print(Commands.even)
         command += f" {self.filename}"
         return (command)
 
     def Print(self):
         print(self.relatory)
-        return super().Print()
+        super().Print()
+        if self.__is_duplex:
+            if path.exists('.even-29042024.pdf'):
+                remove(".even-29042024.pdf")
+            if path.exists('.odd-29042024.pdf'):
+                remove('.odd-29042024.pdf')
