@@ -1,6 +1,6 @@
 from sys import argv
 from Printer import Printer
-from utils import Entries
+from utils import Entries, Validator
 
 
 def start() -> bool:
@@ -11,9 +11,10 @@ def start() -> bool:
         return False
     elif args[0] == "duplex normal":
         filename = input("Filename: ")
-        if (filename).count(' ') > 0:
-            print(f"Muitos espaços no nome do arquivo [{filename}]")
+        output_filename_validated = Validator.file(filename)
+        if not output_filename_validated:
             return False
+        filename = output_filename_validated
         printquality = input(
             "Print Quality[1,2,3] | [Rascunho,Normal,Melhor] | [Draft,Normal,Best]: ")
         duplex = True

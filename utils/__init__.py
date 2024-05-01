@@ -1,4 +1,5 @@
 from Printer import Printer
+from os import path
 
 
 class Entries:
@@ -24,3 +25,23 @@ class Entries:
             "Print Quality[1,2,3] | [Rascunho,Normal,Melhor] | [Draft,Normal,Best]: ")
         Printer(filename, duplex, printquality,
                 outputorder, media, "").Print()
+
+
+class Validator:
+    @staticmethod
+    def file(filename) -> str | bool:
+        filename_pdf = f"{filename}.pdf"
+
+        def filepath() -> str:
+            if path.exists(filename):
+                return filename_pdf
+            elif path.exists(filename_pdf):
+                return filename_pdf
+            return False
+        output_filepath = filepath()
+        if (filename).count(' ') > 0:
+            print(f"Muitos espaços no nome do arquivo [{filename}]")
+            return False
+        if not output_filepath:
+            return False
+        return output_filepath

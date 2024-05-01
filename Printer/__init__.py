@@ -96,3 +96,5 @@ class Printer(Manager):
                 remove(".even-29042024.pdf")
             if path.exists('.odd-29042024.pdf'):
                 remove('.odd-29042024.pdf')
+            if path.exists('output.txt'):
+                remove('output.txt')
