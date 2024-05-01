@@ -34,7 +34,7 @@ class Validator:
 
         def filepath() -> str:
             if path.exists(filename):
-                return filename_pdf
+                return filename
             elif path.exists(filename_pdf):
                 return filename_pdf
             return False
