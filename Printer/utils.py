@@ -1,5 +1,6 @@
 from time import sleep
 from subprocess import run
+from Printer.gui import Question
 
 
 class Commands:
@@ -37,7 +38,7 @@ class Manager:
         for command_index, command_initialize_print in enumerate(self.commands):
             i = 0
             if command_index == 1:
-                if not self.__question():
+                if not Question():
                     break
             run([command_initialize_print], shell=True)
             while True:
