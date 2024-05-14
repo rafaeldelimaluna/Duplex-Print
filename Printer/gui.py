@@ -15,8 +15,8 @@ class Ui_Dialog(object):
     is_continue = False
 
     def setupUi(self, Dialog):
-        Dialog.setObjectName("Dialog")
-        Dialog.resize(400, 166)
+        Dialog.setObjectName("Proxima Etapa")
+        Dialog.resize(400, 224)
 
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(Dialog)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
@@ -40,8 +40,13 @@ class Ui_Dialog(object):
         self.verticalLayout.addItem(spacerItem)
         self.ContinueBtn = QtWidgets.QPushButton(
             Dialog, clicked=lambda: self.Continue())
-        self.ContinueBtn.setStyleSheet("background-color: rgb(19, 97, 200);")
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Maximum)
+        self.ContinueBtn.setStyleSheet(
+            "background-color: #004bb5;font: 87 11pt 'Lato Black';")
         self.ContinueBtn.setDefault(False)
+        self.ContinueBtn.setSizePolicy(sizePolicy)
+        self.ContinueBtn.setMinimumSize(QtCore.QSize(0, 60))
         self.ContinueBtn.setFlat(False)
         self.ContinueBtn.setObjectName("ContinueBtn")
         self.verticalLayout.addWidget(self.ContinueBtn)

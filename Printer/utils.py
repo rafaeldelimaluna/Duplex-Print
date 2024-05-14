@@ -1,6 +1,7 @@
 from time import sleep
 from subprocess import run
 from Printer.gui import Question
+from os import get_exec_path
 
 
 class Commands:
@@ -14,8 +15,8 @@ class Manager:
         self.commands = commands
 
     def __verifyIfEnded(self) -> bool:
-        run(args=['lpstat -W not-completed > output.txt'], shell=True)
-        r = open('output.txt', 'r')
+        run(args=['lpstat -W not-completed > .output.txt'], shell=True)
+        r = open('.output.txt', 'r')
         output = r.read()
         if output == "":
             return True
@@ -52,11 +53,17 @@ class Interpreter:
     @staticmethod
     def print_quality(print_quality_value: int | str):
         match print_quality_value:
-            case 3:
+            case "3" | 3:
                 return "Draft"
-            case 4:
+            case "4" | 4:
                 return "Normal"
-            case 5:
-                "Best"
+            case "5" | 5:
+                return "Best"
             case _:
                 return "Invalid"
+
+
+class Directories:
+    app_path = get_exec_path()[0].split('/')[:-2]
+    app_path = '/'.join(app_path)
+    blank_pdf = app_path+"/duplex-print/Printer/blank.pdf"

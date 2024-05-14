@@ -19,29 +19,30 @@ class Entries:
     def iterable():
         filename = input("File target: ")
         media = input("Media: ")
-        duplex = Entries.__questionTrueOrFalse("duplex[y/s]: ")
-        outputorder = Entries.__questionTrueOrFalse("Duplex[y/n]: ")
+        duplex = Entries.__questionTrueOrFalse("duplex[s/n]: ")
+        outputorder = Entries.__questionTrueOrFalse("Inversed[s/n]: ")
         printquality = input(
             "Print Quality[1,2,3] | [Rascunho,Normal,Melhor] | [Draft,Normal,Best]: ")
-        Printer(filename, duplex, printquality,
+        output_filename_validated = Validator.file(filename)
+        if not output_filename_validated:
+            return False
+        Printer(output_filename_validated, duplex, printquality,
                 outputorder, media, "").Print()
 
 
 class Validator:
     @staticmethod
-    def file(filename) -> str | bool:
+    def __filepath(filename) -> str:
         filename_pdf = f"{filename}.pdf"
+        if path.exists(filename):
+            return filename
+        elif path.exists(filename_pdf):
+            return filename_pdf
+        return False
 
-        def filepath() -> str:
-            if path.exists(filename):
-                return filename
-            elif path.exists(filename_pdf):
-                return filename_pdf
-            return False
-        output_filepath = filepath()
-        if (filename).count(' ') > 0:
-            print(f"Muitos espaços no nome do arquivo [{filename}]")
-            return False
+    @staticmethod
+    def file(filename) -> str | bool:
+        output_filepath = Validator.__filepath(filename)
         if not output_filepath:
             return False
         return output_filepath
