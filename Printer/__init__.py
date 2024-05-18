@@ -4,7 +4,7 @@ from os import getcwd, remove, path
 
 
 class Printer(Manager):
-    def __init__(self, filename, duplex: bool, print_quality: int | str, print_reversed: bool, media_size: str, job_name="") -> None:
+    def __init__(self, filename, duplex: bool = False, print_quality: int | str = 0, print_reversed: bool = True, media_size: str = "A4", job_name: str = "Duplex_Print") -> None:
         self.duplex = "duplex" if duplex else None
         self.__is_duplex = duplex
         self.__cwd = getcwd()
@@ -16,7 +16,8 @@ class Printer(Manager):
             self.oprint_quality)
         self.omedia = media_size if media_size != "" else None
         self.ooutputorder = "reversed" if print_reversed else None
-        self.T = None if job_name == "" else job_name
+        self.T = ("inherited" if job_name ==
+                  "" else job_name).replace(' ', '_')
         self.__blank_pdf = PdfReader(Directories.blank_pdf)
         self.pdf = PdfReader(self.filename)
         self.pdf_len = self.pdf.get_num_pages()

@@ -1,7 +1,7 @@
 from time import sleep
 from subprocess import run
 from Printer.gui import Question
-from os import get_exec_path
+from os import get_exec_path, getcwd, listdir, path
 
 
 class Commands:
@@ -67,3 +67,5 @@ class Directories:
     app_path = get_exec_path()[0].split('/')[:-2]
     app_path = '/'.join(app_path)
     blank_pdf = app_path+"/duplex-print/Printer/blank.pdf"
+    cwd = getcwd()
+    files_in_just_path = [file for file in listdir(cwd) if path.isfile(file)]

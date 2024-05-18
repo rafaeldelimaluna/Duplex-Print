@@ -1,5 +1,10 @@
 from Printer import Printer
 from os import path
+from subprocess import run
+
+
+def clear_console():
+    run('clear')
 
 
 class Entries:

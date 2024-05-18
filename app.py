@@ -1,6 +1,7 @@
 from sys import argv
 from Printer import Printer
 from utils import Entries, Validator
+from utils.prompt_gui import PromptGui
 
 
 def MakeNormalPrint(filename=""):
@@ -16,18 +17,21 @@ def MakeNormalPrint(filename=""):
     outputorder = True
     Printer(filename, duplex, printquality,
             outputorder, "A4", "CMD").Print()
+    return True
 
 
-def start() -> bool:
+def main() -> bool:
     args = argv[1:]
     if args.__len__() == 0:
         return False
+    elif args[0] == "prompt_gui":
+        return PromptGui().start()
     elif args[0] == "duplex normal":
-        MakeNormalPrint(args[1] if len(args) > 1 else "")
+        return MakeNormalPrint(args[1] if len(args) > 1 else "")
     elif args[0] == "iterable":
         Entries.iterable()
 
 
 if __name__ == "__main__":
-    if not start():
+    if not main():
         print("No Arguments")
