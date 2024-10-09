@@ -95,7 +95,6 @@ class Printer(Manager):
             Commands.even = self.__createDuplexCommandPrint(True)
             return (Commands.odd, Commands.even)
         command += f" {self.filename}"
-        # print(command)
         return (command)
 
     def __removeTemporaryFiles(self) -> None:

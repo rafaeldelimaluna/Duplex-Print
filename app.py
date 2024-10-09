@@ -2,6 +2,8 @@ from sys import argv
 from Printer import Printer
 from utils import Entries, Validator
 from utils.prompt_gui import PromptGui
+from gui import Question
+from time import sleep
 
 
 def MakeNormalPrint(filename=""):
@@ -35,3 +37,4 @@ def main() -> bool:
 if __name__ == "__main__":
     if not main():
         print("No Arguments")
+    

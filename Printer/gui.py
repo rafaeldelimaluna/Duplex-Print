@@ -86,13 +86,16 @@ class Ui_Dialog(object):
         Ui_Dialog.is_continue = False
         QtCore.QCoreApplication.quit()
 
-
-def Question() -> bool:
-    from sys import argv
-    app = QtWidgets.QApplication(argv)
-    Dialog = QtWidgets.QDialog()
-    ui = Ui_Dialog()
-    ui.setupUi(Dialog)
-    Dialog.show()
-    app.exec_()
-    return Ui_Dialog.is_continue
+class Question:
+    def __init__(self):
+        from sys import argv
+        self.__app = QtWidgets.QApplication(argv)
+        self.__Dialog = QtWidgets.QDialog()
+        self.__ui = Ui_Dialog()
+        self.__ui.setupUi(self.__Dialog)
+        
+    def start(self):
+        self.__Dialog.show()
+        self.__app.exec_()
+        return Ui_Dialog.is_continue
+        

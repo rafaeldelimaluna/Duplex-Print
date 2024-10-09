@@ -25,8 +25,7 @@ class PromptGui():
         "dialog.body": "bg:#fff #000",
         'dialog shadow': "bg:#a36262"
     })
-    files = [(file, f"{file:<20} | {PdfReader(file).get_num_pages()}")
-             for file in Directories.files_in_just_path]
+    files = [(file, f"{file:<20} | {PdfReader(file).get_num_pages()}") for file in Directories.files_in_just_path if ".pdf" in file]
     clear_console()
     files.sort(reverse=True)
     files.append(("back", HTML("<h1>Sair</h1>")))
