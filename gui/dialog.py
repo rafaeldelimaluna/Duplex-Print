@@ -40,5 +40,6 @@ class Question():
     def __init__(self) -> None:
         self.ui = Dialog()
     def start(self):
+        app.focusWindow()
         app.exec()
         return self.ui.is_continue
